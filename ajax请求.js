@@ -6,7 +6,7 @@
 const getJSON = function (url) {
     return new Promise((resolve, rejct) =>{
         const xhr = XMLHttpRequest ? newHttpRequest() : new ActiveXObject("Microsoft.XMLHttp")
-        xhr.open('GET', url, false)
+        xhr.open('GET', url, false) // true表示异步，但是这里已经用了promise
         xhr.setRequestHeader('Accept', 'application/header')
         xhr.onreadystatechange = function(){
             if (xhr.readyState !== 4) return
