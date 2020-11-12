@@ -1,0 +1,35 @@
+var findRepeatNumber = function(nums) {
+    let hashset = new Set()
+    for (let i of nums){
+        if (!hashset.has(i)){
+            hashset.add(i)
+        }else{
+            return i
+        }
+    }
+}
+
+
+// 少一层在set中的遍历 has
+// 每次往set里加元素，如果加完之后set.size没有变化，说明加进去一个重复的数字，返回即可
+var findRepeatNumber = function(nums) {
+    let s=new Set();
+    for(var i in nums){
+        var curLenth=s.size;
+        s.add(nums[i]);
+        if(s.size==curLenth)
+        return nums[i];
+    }
+}
+
+//hashmap key为元素，value为true or false是否出现过
+var findRepeatNumber = function(nums) {
+    const map = {};
+    for (const num of nums) {
+        if (!map[num]) {
+            map[num] = true;
+        } else {
+            return num;
+        }
+    }
+}
