@@ -129,19 +129,23 @@ http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html
 
 3. 修改代码完后
 
-> 先add到index缓存区：$ git add .  
+> 先add到index暂存区（提交修改）：$ git add .  
 >
-> 再commit到自己的仓库：$ git commit -m'comment'
+> 再从暂存区commit到当然分支（提交新文件）：$ git commit -m'comment'
 >
 > // 可以用 -m "can't fix something" 包含特殊符号
+>
+> // `$ git add <filename>` 可以反复使用添加多个文件 然后一次性commit完成
 
 **git commit**是将本地修改过的文件提交到本地库中。 **git push**是将本地库中的最新信息发送给远程库
+
+git commit相当于保存一个快照，以后可以根据commit的tag号版本回退。
 
 4. push到远程仓库
 
 > 1. 本地当前分支 push 到远程指定分支上： $ git push origin <本地分支名>:<远程分支名>
 >
-> 2. **【推荐】**将本地当前分支 推送到 与本地当前分支同名的远程分支上： $ git push origin <local branch name>
+> 2. 【**推荐**】将本地当前分支 推送到 与本地当前分支同名的远程分支上： $ git push origin <local branch name>
 >
 > 3. 本地分支 push 到与本地当前分支同名的 远程分支上（需要先关联远程分支）： $git push origin
 >
@@ -153,7 +157,13 @@ http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html
 >
 > 删除本地分支:`$ git branch -d`<BranchName>
 
-> 查看项目的分支们(包括本地和远程) : `$ git branch -a`
+> 1. 查看项目的分支们(包括本地和远程) : `$ git branch -a`
+> 2. checkout远程的dev分支，在本地起名dev分支，并切换到本地的dev分支：`$ git checkout -b dev origin/dev `
+> 3. 切换回dev分支：`$ git checkout dev`
+> 4. 查看修改变化：`$ git status`
+> 5. 查看具体怎么修改的： `$ git diff <filename>` 文件名可有可无
+> 6. 查看git的commit历史记录：`$ git log` //回车慢慢显示，退出Q键
+> 7. 版本回退：看url
 
 `git branch`不带参数,列出本地已经存在的分支，并且在当前分支的前面用`*`标记，加上`-a`参数可以查看所有分支列表，包括本地和远程，远程分支一般会用红色字体标记出来
 
