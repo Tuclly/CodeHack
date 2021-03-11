@@ -151,23 +151,91 @@ git commit相当于保存一个快照，以后可以根据commit的tag号版本�
 >
 >    将本地的分支与远程同名分支相**关联**：$git push -u origin <local branch name>
 
-### 其他流程之外
+### 其他流程之外 （分支默认master，远程库默认origin
 
-> 删除远程(gitlab上)分支:`$ git push origin --delete`<BranchName>
+> 删除远程(gitlab上)分支:`$ git push origin --delete <BranchName>`
 >
-> 删除本地分支:`$ git branch -d`<BranchName>
+> 删除本地分支:`$ git branch -d <BranchName>`
+>
+> 删除一个没有被合并过的分支: `$ git branch -D <name>`
 
 > 1. 查看项目的分支们(包括本地和远程) : `$ git branch -a`
+>
+>    `git branch`不带参数,列出本地已经存在的分支，并且在当前分支的前面用`*`标记，加上`-a`参数可以查看所有分支列表，包括本地和远程，远程分支一般会用红色字体标记出来
+>
+>    <img src="C:\Users\heqianlu\AppData\Roaming\Typora\typora-user-images\image-20210310143140870.png" alt="image-20210310143140870" style="zoom: 25%;" />
+>
 > 2. checkout远程的dev分支，在本地起名dev分支，并切换到本地的dev分支：`$ git checkout -b dev origin/dev `
+>
 > 3. 切换回dev分支：`$ git checkout dev`
-> 4. 查看修改变化：`$ git status`
-> 5. 查看具体怎么修改的： `$ git diff <filename>` 文件名可有可无
+>
+> 4. 查看修改变化**(工作区与版本库的变化）**：`$ git status`
+>
+> 5. 查看具体怎么修改的： 
+>
+>    - `$ git diff <filename>` 文件名可有可无，比较的是工作区文件和暂存区文件的区别，就是add的内容
+>    -  `$ git diff --cached` ：比较是的暂存区的文件和仓库分支的分支里的区别，就是commit的内容
+>    - `$ git diff HEAD` 比较工作区与仓库分支的区别（跨了中间的index暂存区
+>
 > 6. 查看git的commit历史记录：`$ git log` //回车慢慢显示，退出Q键
-> 7. 版本回退：看url
+>
+>    `git log --graph` 看到分支合并图
+>
+> 7. 版本回退：https://www.liaoxuefeng.com/wiki/896043488029600/897013573512192
+>
+> 8. `$ git add` 的反向命令: `$ git checkout` 撤销工作区修改，把暂存区的最新版本转移到工作区
+>
+> 9. `$ git commit`的反向命令：`$ git reset head`仓库最新版本 转移到工作区
+>
+> 10. 撤销修改：
+>
+>     1. 当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令`git checkout -- file`。（注意--两边的空格space）
+>     2. 当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令`git reset HEAD <file>`，就回到了场景1，第二步按场景1操作。 或者直接`$ git check HEAD <file>`
+>     3. 已经提交了不合适的修改到版本库时，想要撤销本次提交，参考[版本回退](https://www.liaoxuefeng.com/wiki/896043488029600/897013573512192)一节，不过前提是没有推送到远程库。
+>     4. 新增的`$ git switch `和`$ git restore` 
+>
+> 11. 在版本库中删除某个文件： `$ git rm <file name>` 然后再`$ git commit -m"....."`
+>
+>     `$ rm <fileName>` 删除文件，在git中视为删除工作区的文件
+>
+>     `$ git rm --cahed <file>`仅仅删除暂存区的文件，不会删除工作区
+>
+>     如果误删了，但是因为版本库里还有可以恢复到最新版本：`$ git checkout -- <fileName>`, checkout本质上是用版本库里的版本替代工作区里的版本。
+>
+>     1. 工作区文件删除，恢复文件：`$ git restore <fileName>`
+>     2. 工作区，版本库文件都删除。 `$ git reset --hard HEAD^` 指针恢复到上一个版本号
+>
+> 12. 查看远程库的信息: `$ git remote -v` 再根据名字删除origin `$ git remote rm origin`但是这里的删除是解除本地和远程的绑定关系，并没有物理的删除了远程库，远程库没有改动。
+>
+> 13. 分支的管理（https://www.liaoxuefeng.com/wiki/896043488029600/900003767775424指针的图示）
+>
+>     1. `$ git checkout -b dev ` `$ git switch -c <name>` 创建dev分支且切换到dev分支
+>     2. `$ git checkout <branchName>` or `$ git switch <name>`
+>     3. `$ git branch`查看当前分支
+>     4. `$ git merge dev`合并指定分支（dev）到当前分支（master）
+>     5. `$ git branch -d dev` 删除dev分支，丢弃一个没有被合并的分支`$ git branch -D <branchName>` 强行删除
+>
+> 14. 在master分支上修复的bug，想要合并到当前dev分支，可以用`git cherry-pick <commit>`命令，把bug提交的修改“复制”到当前分支，避免重复劳动。
+>
+> 15. 多人协作的工作模式通常是这样：
+>
+>     1. 首先，可以试图用`git push origin <branch-name>`推送自己的修改；
+>     2. 如果推送失败，则因为远程分支比你的本地更新，需要先用`git pull`试图合并；
+>     3. 如果合并有冲突，则解决冲突，并在本地提交；
+>     4. 没有冲突或者解决掉冲突后，再用`git push origin <branch-name>`推送就能成功！
+>
+>     如果`git pull`提示`no tracking information`，则说明本地分支和远程分支的链接关系没有创建，用命令`git branch --set-upstream-to <branch-name> origin/<branch-name>`。
+>
+> 16. 
 
-`git branch`不带参数,列出本地已经存在的分支，并且在当前分支的前面用`*`标记，加上`-a`参数可以查看所有分支列表，包括本地和远程，远程分支一般会用红色字体标记出来
-
-<img src="C:\Users\heqianlu\AppData\Roaming\Typora\typora-user-images\image-20210310143140870.png" alt="image-20210310143140870" style="zoom: 25%;" />
 
 
 
+
+### 暂存区的意义：
+
+https://www.liaoxuefeng.com/wiki/896043488029600/897271968352576
+
+”如果没有暂存区的概念，我们在容器中任意的修改commit的时候都会被加入到branch里，但是有可能我们添加一个临时文件，但是我们不想把它commit上去。“
+
+“暂存区就像**购物车**，没到付款的时候你都不确定购物车里的东西全部都是要的。。。每拿一件商品就付一次款。。。那才麻烦大了”
