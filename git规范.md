@@ -61,8 +61,6 @@ $ git fetch origin``$ git rebase origin``/master
 $ git rebase -i origin``/master
 ```
 
-
-
 合并commit后，就可以推送当前分支到远程仓库了。
 
 **第六步：推送到远程仓库**
@@ -72,8 +70,6 @@ $ git push --force origin myfeature
 ```
 
 git push命令要加上force参数，因为rebase以后，分支历史改变了，跟远程分支不一定兼容，有可能要强行推送
-
-
 
 **第七步：发出Merge Requests**
 
@@ -118,7 +114,7 @@ http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html
 
 > 如果是pull 别人的update的commit
 >
-> 1. 将远程制定的branch pull到 本地制定branch上：$ git pull origin <remote branch name>:<local branch name> 
+> 1. 将远程指定的branch pull到 本地制定branch上：$ git pull origin <remote branch name>:<local branch name> 
 >
 > （注：命令里的尖括号<>只是包裹中文的标识，方便你看的，实际使用时不用写，不过冒号需要）
 >
