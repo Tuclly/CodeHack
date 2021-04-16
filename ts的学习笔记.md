@@ -1,3 +1,23 @@
+# TS比JS多的一些东西
+
+- 类型批注和编译时类型检查
+
+- 类型推断
+
+- 类型擦除
+
+- 接口
+
+- 美剧
+
+- 泛型编程
+
+- 名字空间
+
+- 元祖
+
+  
+
 # 类型声明
 
 1. 数组
@@ -55,9 +75,18 @@ sample = '123';
 sample = true; // Error
 ```
 
-6. 强制类型转换
+6. 强制类型转换(类型断言)
 
-`const fixArrNever: string[] = ([] as string[]).concat(['s']);// 兼容jsx`
+`const fixArrNever: `
+
+`string[] = ([] as string[]).concat(['s']);// 兼容jsx`
+
+
+
+```js
+let someValue:any = "this is a string"
+let strLength:number = (someValue as steing).length
+```
 
 7. 属性可选和默认属性
 
@@ -303,11 +332,23 @@ type setProps = (name:string, age:number) => void
 
 
 
+## Record
 
+Record本质上就是为 对象 申明 key和value的类型
 
+```js
+interface CatInfo {
+    age:number;
+    breed:string;
+}
+type CatName = "miffy" | "boris" |"mordred"
 
-
-
+const cats: Record<CatName, CatInfo> = {
+  miffy: { age: 10, breed: "Persian" },
+  boris: { age: 5, breed: "Maine Coon" },
+  mordred: { age: 16, breed: "British Shorthair" },
+}
+```
 
 
 

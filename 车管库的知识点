@@ -1,0 +1,134 @@
+## React Router
+
+React Router中的组件主要分为三类：
+
+1. 路由器，例如 BrowserRouter 和 HashRouter
+2. 路由匹配器： 例如Route和Switch
+3. 导航：例如Link, NavLink, and Redirect
+
+### 基本的路由
+
+<Link> 算是引路
+
+<Route>算是引路的终点
+
+```tsx
+<Link to="/">Home</Link>
+
+<Link to ="/about">About</Link>
+
+<Link to="/users">Users</Link>
+
+<Switch>
+    <Route path="/about"> <About/> </Route>
+    <Route path="/users"> <Users/> </Route>
+    <Route path="/"> <Home/> </Route>
+</Switch>
+```
+
+### Hooks
+
+#### `useHistory`
+
+useHistory hook 使您可以访问可用于导航的历史记录实例。
+
+```js
+import { useHistory } from "react-router-dom";
+
+function HomeButton() {
+  let history = useHistory();
+
+  function handleClick() {
+    history.push("/home");
+  }
+
+  return (
+    <button type="button" onClick={handleClick}>
+      Go home
+    </button>
+  );
+}
+
+```
+
+#### `useLocation`
+
+
+
+#### `useParams`
+
+useParams返回URL参数的键/值对的对象。使用它来访问当前`<Route>`的match.params。
+
+```jsx
+function BlogPost() {
+  let { slug } = useParams();
+  return <div>Now showing post {slug}</div>;
+}
+
+ReactDOM.render(
+  <Router>
+    <Switch>
+      <Route exact path="/">
+        <HomePage />
+      </Route>
+      <Route path="/blog/:slug">
+        <BlogPost />
+      </Route>
+    </Switch>
+  </Router>,
+  node
+);
+```
+
+#### `useRouteMatch`
+
+## JSON.parse()
+
+```js
+JSON.parse('{}');              // {}
+JSON.parse('true');            // true
+JSON.parse('"foo"');           // "foo"
+JSON.parse('[1, 5, "false"]'); // [1, 5, "false"]
+JSON.parse('null');            // null
+
+JSON.parse('{"p": 5}', function (k, v) {
+    if(k === '') return v;     // 如果到了最顶层，则直接返回属性值，
+    return v * 2;              // 否则将属性值变为原来的 2 倍。
+});                            // { p: 10 }
+
+JSON.parse('{"1": 1, "2": 2,"3": {"4": 4, "5": {"6": 6}}}', function (k, v) {
+    console.log(k); // 输出当前的属性名，从而得知遍历顺序是从内向外的，
+                    // 最后一个属性名会是个空字符串。
+    return v;       // 返回原始属性值，相当于没有传递 reviver 参数。
+});
+// 总之就是 碰到每一个key-value 从里到外扒一遍再继续下一个 1/2/4/6 5 /3
+// 1
+// 2
+// 4
+// 6
+// 5
+// 3
+// ""
+
+不能用逗号作结尾
+// both will throw a SyntaxError
+JSON.parse("[1, 2, 3, 4, ]");
+JSON.parse('{"foo" : 1, }');
+```
+
+## JSON.stringify
+
+```js
+JSON.stringify(value[, replacer [, space]])
+```
+
+
+
+
+
+
+
+
+
+
+
